@@ -41,7 +41,6 @@ int lsh_num_builtins() {
   return sizeof(builtin_str) / sizeof(char *);
 }
 
-<<<<<<< HEAD
 /*
   Builtin function implementations.
 */
@@ -51,8 +50,7 @@ int lsh_num_builtins() {
    @param args List of args.  args[0] is "cd".  args[1] is the directory.
    @return Always returns 1, to continue executing.
  */
-=======
->>>>>>> 5e647fedffe9c0b6dbe589311a149e0333b6671b
+
 int lsh_cd(char **args)
 {
   if (args[1] == NULL) {
@@ -87,7 +85,6 @@ int lsh_exit(char **args)
   return 0;
 }
 
-<<<<<<< HEAD
 int lsh_ls(char **args)
 {
 	DIR *dp = NULL; 
@@ -182,9 +179,6 @@ int lsh_pwd(char **args)
   @param args Null terminated list of arguments (including program).
   @return Always returns 1, to continue execution.
  */
-=======
-
->>>>>>> 5e647fedffe9c0b6dbe589311a149e0333b6671b
 int lsh_launch(char **args)
 {
   pid_t pid;
