@@ -4,29 +4,55 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <dirent.h>
 
-
+/*
+  Function Declarations for builtin shell commands:
+ */
 int lsh_cd(char **args);
 int lsh_help(char **args);
 int lsh_exit(char **args);
+int lsh_ls(char **args);
+int lsh_mv(char **args);
+int lsh_pwd(char **args);
 
 
 char *builtin_str[] = {
-  "cd",
-  "help",
-  "exit"
+  "mycd",
+  "myhelp",
+  "myexit",
+  "myls",
+  "mymv",
+  "mypwd"
 };
 
 int (*builtin_func[]) (char **) = {
   &lsh_cd,
   &lsh_help,
-  &lsh_exit
+  &lsh_exit,
+  &lsh_ls,
+  &lsh_mv,
+  &lsh_pwd
 };
 
 int lsh_num_builtins() {
   return sizeof(builtin_str) / sizeof(char *);
 }
 
+<<<<<<< HEAD
+/*
+  Builtin function implementations.
+*/
+
+/**
+   @brief Bultin command: change directory.
+   @param args List of args.  args[0] is "cd".  args[1] is the directory.
+   @return Always returns 1, to continue executing.
+ */
+=======
+>>>>>>> 5e647fedffe9c0b6dbe589311a149e0333b6671b
 int lsh_cd(char **args)
 {
   if (args[1] == NULL) {
@@ -61,7 +87,104 @@ int lsh_exit(char **args)
   return 0;
 }
 
+<<<<<<< HEAD
+int lsh_ls(char **args)
+{
+	DIR *dp = NULL; 
+        struct dirent *dptr = NULL; 
+        unsigned int count = 0; 
+  
+        if(NULL == args[1]) 
+	{ 
+        dp = opendir(".");
+   	}
+	else 
+    	{
+        dp = opendir(args[1]);
+   	}
+  	if(NULL == dp) 
+  	{ 
+     	   printf("\n ERROR : Could not open.\n");
+ 	   return 1;
+   	} 
+   
+        for(count = 0; NULL != (dptr = readdir(dp)); count++) 
+        { 
+       		if(dptr->d_name[0] != '.') 
+       		{
+                	printf("%s     ",dptr->d_name); 
+        	} 
+        } 
+        printf("\n"); 
+        closedir(dp);
+ 
+        return 1; 
+}
 
+int lsh_mv(char **args)
+{
+        DIR* dir_ptr;
+        struct dirent* direntp;
+
+        if( args[2] == NULL )
+        {
+        	printf("Usage:  %s MOVE\n", args[0] );
+      		return 1;
+        }
+
+        if( args[1] == NULL &&  args[2] == NULL)
+        {
+   	     printf("Error! Few arguments provided.\n" );
+  	      return 1;
+        }
+
+        char src_folder[256];
+        char dest_folder[256];
+        strcpy(src_folder, args[1]);
+        strcpy(dest_folder, args[2]);
+
+        dir_ptr = opendir(".");
+        if (dir_ptr == NULL)
+        {
+    	    perror( "." );
+   	     return 1;
+        }
+
+        while((direntp = readdir(dir_ptr)) != NULL ) 
+        {
+   		if (strcmp(direntp->d_name, dest_folder) !=0)
+                {
+            	 	break;
+                }
+		else
+                	printf("Not found.\n");
+        break;
+        }
+        rename(src_folder, dest_folder);
+        closedir(dir_ptr);
+
+        return 1;
+}
+
+int lsh_pwd(char **args)
+{ 
+        char cwd[1024]; 
+        getcwd(cwd, sizeof(cwd)); 
+        printf("%s\n", cwd);
+        return 1; 
+}
+
+
+
+
+/**
+  @brief Launch a program and wait for it to terminate.
+  @param args Null terminated list of arguments (including program).
+  @return Always returns 1, to continue execution.
+ */
+=======
+
+>>>>>>> 5e647fedffe9c0b6dbe589311a149e0333b6671b
 int lsh_launch(char **args)
 {
   pid_t pid;
